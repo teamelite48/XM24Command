@@ -4,6 +4,9 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
+import edu.wpi.first.wpilibj.util.Units;
+
 public final class Constants {
     public static final class DriveConstants {
         public static final class MotorChannels {
@@ -22,11 +25,30 @@ public final class Constants {
             public static final int RIGHT_B = 3;
         }
 
+        public static final class FeedForwardGains {
+            public static final double ksVolts = 0.22;
+            public static final double kvVoltSecondsPerMeter = 1.98;
+            public static final double kaVoltSecondsSquaredPerMeter = 0.2;
+        }
+
+        public static final class FeedbackGains {
+            public static final double kPDriveVel = 8.5;
+        }
+
+        public static final double TrackwidthMeters = 0.69;
+        public static final DifferentialDriveKinematics DriveKinematics = new DifferentialDriveKinematics(TrackwidthMeters);
+
+        public static final double MaxSpeedMetersPerSecond = 3;
+        public static final double MaxAccelerationMetersPerSecondSquared = 3;
+
+        public static final double RamseteB = 2;
+        public static final double RamseteZeta = 0.7;
+
         public static final double SIMULATION_REFRESH_RATE = 0.02;
         public static final int ENCODER_RESOLUTION = -4096;
         public static final int GYRO_CHANNEL = 0;
 
-        public static final double WHEEL_DIAMETER = 6;
+        public static final double WHEEL_DIAMETER = Units.inchesToMeters(6);
 
         public static final double SLOW_SPEED = 0.5;
         public static final double FAST_SPEED = 1.0;

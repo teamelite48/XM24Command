@@ -30,8 +30,15 @@ public class SixWheelDifferentialDrivetrain {
     public double getLeftSpeed() {
         return leftGroup.get();
     }
-    
+
     public double getRightSpeed() {
         return rightGroup.get();
     }
+
+	public void tankDriveVolts(double leftVoltage, double rightVoltage) {
+        leftGroup.setVoltage(leftVoltage);
+        rightGroup.setVoltage(-rightVoltage);
+
+        drivetrain.feed();
+	}
 }
