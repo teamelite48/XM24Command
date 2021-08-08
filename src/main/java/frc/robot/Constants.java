@@ -11,10 +11,8 @@ public final class Constants {
     public static final class DriveConstants {
         public static final class MotorChannels {
             public static final int LEFT_FRONT = 3;
-            public static final int LEFT_MIDDLE = 5;
             public static final int LEFT_REAR = 2;
             public static final int RIGHT_FRONT = 0;
-            public static final int RIGHT_MIDDLE = 4;
             public static final int RIGHT_REAR = 1;
         }
 
