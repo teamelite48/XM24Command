@@ -4,8 +4,11 @@
 
 package frc.robot;
 
+import java.nio.file.Path;
 import java.util.List;
 
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.controller.RamseteController;
@@ -18,6 +21,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryConfig;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryGenerator;
+import edu.wpi.first.wpilibj.trajectory.TrajectoryUtil;
 import edu.wpi.first.wpilibj.trajectory.constraint.DifferentialDriveVoltageConstraint;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
@@ -32,14 +36,13 @@ public class RobotContainer {
 
   private final DriveSubsystem driveSubsystem = new DriveSubsystem();
 
-  private final Command rotateClockwiseCommand = new RunCommand(() -> driveSubsystem.arcadeDrive(0, 0.5), driveSubsystem);
-  private final Command rotateCounterClockwiseCommand = new RunCommand(() -> driveSubsystem.arcadeDrive(0, -0.5), driveSubsystem);
+  private final Command rotateClockwiseCommand = new RunCommand(() -> driveSubsystem.arcadeDrive(0, 0.5),
+      driveSubsystem);
+  private final Command rotateCounterClockwiseCommand = new RunCommand(() -> driveSubsystem.arcadeDrive(0, -0.5),
+      driveSubsystem);
 
-  private final Command manualDriveCommand = new RunCommand(() -> driveSubsystem.arcadeDrive(
-    pilotInput.getY(Hand.kLeft),
-    pilotInput.getX(Hand.kRight)),
-    driveSubsystem
-  );
+  private final Command manualDriveCommand = new RunCommand(
+      () -> driveSubsystem.arcadeDrive(pilotInput.getY(Hand.kLeft), pilotInput.getX(Hand.kRight)), driveSubsystem);
 
   SendableChooser<Command> autonomousChooser = new SendableChooser<>();
 
@@ -54,9 +57,8 @@ public class RobotContainer {
   }
 
   private void configureButtonBindings() {
-    pilotInput.getLeftBumper()
-      .whenPressed(() -> driveSubsystem.setFastSpeed())
-      .whenReleased(() -> driveSubsystem.setSlowSpeed());
+    pilotInput.getLeftBumper().whenPressed(() -> driveSubsystem.setFastSpeed())
+        .whenReleased(() -> driveSubsystem.setSlowSpeed());
   }
 
   private void initAutonomousChooser() {
@@ -78,14 +80,18 @@ public class RobotContainer {
       10
     );
 
+    String trajectoryJSON = "paths/Unnamed.wpilib.json";
+    Trajectory trajectory = new Trajectory();
+
     TrajectoryConfig config = new TrajectoryConfig(
       DriveConstants.MaxSpeedMetersPerSecond,
       DriveConstants.MaxAccelerationMetersPerSecondSquared
-    )
-    .setKinematics(DriveConstants.DriveKinematics)
-    .addConstraint(autoVoltageConstraint);
+    );
+    
+    config.setKinematics(DriveConstants.DriveKinematics);
+    config.addConstraint(autoVoltageConstraint);
 
-    Trajectory exampleTrajectory = TrajectoryGenerator.generateTrajectory(
+    trajectory = TrajectoryGenerator.generateTrajectory(
       new Pose2d(1, 4, new Rotation2d(0)),
       List.of(
         new Translation2d(2, 5),
@@ -95,8 +101,16 @@ public class RobotContainer {
       config
     );
 
+    try {
+      Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajectoryJSON);
+      trajectory = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
+    }
+    catch ( Exception ex) {
+      DriverStation.reportError("Unable to open trajectory: " + trajectoryJSON, ex.getStackTrace());
+    }
+
     RamseteCommand ramseteCommand = new RamseteCommand(
-        exampleTrajectory,
+        trajectory,
         driveSubsystem::getPose,
         new RamseteController(DriveConstants.RamseteB, DriveConstants.RamseteZeta),
         new SimpleMotorFeedforward(
@@ -112,7 +126,7 @@ public class RobotContainer {
         driveSubsystem
     );
 
-    driveSubsystem.resetOdometry(exampleTrajectory.getInitialPose());
+    driveSubsystem.resetOdometry(trajectory.getInitialPose());
 
     return ramseteCommand.andThen(() -> driveSubsystem.tankDriveVolts(0, 0));
   }

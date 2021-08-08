@@ -35,8 +35,8 @@ public final class Constants {
             public static final double kPDriveVel = 8.5;
         }
 
-        public static final double TrackwidthMeters = 0.69;
-        public static final DifferentialDriveKinematics DriveKinematics = new DifferentialDriveKinematics(TrackwidthMeters);
+        public static final double TrackWidthMeters = 0.69;
+        public static final DifferentialDriveKinematics DriveKinematics = new DifferentialDriveKinematics(TrackWidthMeters);
 
         public static final double MaxSpeedMetersPerSecond = 3;
         public static final double MaxAccelerationMetersPerSecondSquared = 3;
