@@ -11,7 +11,6 @@ import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveOdometry;
-import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -20,7 +19,7 @@ import frc.robot.Constants.DriveConstants;
 public class DriveSubsystem extends SubsystemBase {
   private final PWMSparkMax leftFrontMotor = new PWMSparkMax(DriveConstants.MotorChannels.LEFT_FRONT);
   private final PWMSparkMax leftRearMotor = new PWMSparkMax(DriveConstants.MotorChannels.LEFT_REAR);
-
+ 
   private final PWMSparkMax rightFrontMotor = new PWMSparkMax(DriveConstants.MotorChannels.RIGHT_FRONT);
   private final PWMSparkMax rightRearMotor = new PWMSparkMax(DriveConstants.MotorChannels.RIGHT_REAR);
 
@@ -47,7 +46,6 @@ public class DriveSubsystem extends SubsystemBase {
   );
 
   public DriveSubsystem() {
-    setSlowSpeed();
     initEncoders();
     initDashboard();
   }
@@ -58,58 +56,14 @@ public class DriveSubsystem extends SubsystemBase {
     updateRobotPositionOnField();
   }
 
-  public void arcadeDrive(double speed, double rotation) {
-    drivetrain.arcadeDrive(speed, rotation);
-  }
-
-  public void tankDriveVolts(double leftVoltage, double rightVoltage) {
-    leftMotorGroup.setVoltage(leftVoltage);
-    rightMotorGroup.setVoltage(-rightVoltage);
-
-    drivetrain.feed();
-  }
-  public void setSlowSpeed() {
-    drivetrain.setMaxOutput(DriveConstants.SLOW_SPEED);
-  }
-
-  public void setFastSpeed() {
-    drivetrain.setMaxOutput(DriveConstants.FAST_SPEED);
-  }
-
-  public void zeroHeading() {
-    gyro.reset();
-  }
-
-  public double getHeading() {
-    return gyro.getRotation2d().getDegrees();
-  }
-
-  public double getTurnRate() {
-    return -gyro.getRate();
+  public void tankDrive(double leftSpeed, double rightSpeed) {
+    drivetrain.tankDrive(leftSpeed, rightSpeed);
   }
 
   public void simulationPeriodic() {
     simulation.update();
   }
-
-  public Pose2d getPose() {
-    return odometry.getPoseMeters();
-  }
-
-
-  public DifferentialDriveWheelSpeeds getWheelSpeeds() {
-    return new DifferentialDriveWheelSpeeds(leftEncoder.getRate(), rightEncoder.getRate());
-  }
-
-  public void resetOdometry(Pose2d pose) {
-    resetEncoders();
-    odometry.resetPosition(pose, gyro.getRotation2d());
-  }
-
-  public double getAverageEncoderDistance() {
-    return (leftEncoder.getDistance() + rightEncoder.getDistance()) / 2.0;
-  }
-
+  
   private void initEncoders() {
     double distancePerPulse = Math.PI * DriveConstants.WHEEL_DIAMETER / DriveConstants.ENCODER_RESOLUTION;
 
@@ -132,7 +86,7 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   private void updateRobotPositionOnField() {
-    Pose2d pose = getPose();
+    Pose2d pose = odometry.getPoseMeters();
     field.setRobotPose(pose);
   }
 
