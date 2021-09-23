@@ -12,6 +12,8 @@ public final class Constants {
   public static final int MOTOR_RIGHT_FRONT = 0;
   public static final int MOTOR_RIGHT_REAR = 1;
   
+  public static final int MOTOR_INTAKE = 5;
+
   public static final int ENCODER_LEFT_A = 0;
   public static final int ENCODER_LEFT_B = 1;
   public static final int ENCODER_RIGHT_A = 2;
