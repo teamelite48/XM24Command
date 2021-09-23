@@ -7,17 +7,16 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
-import frc.robot.Constants.OIConstants;
 import frc.robot.operatorinterface.DualShock4Controller;
 import frc.robot.subsystems.drive.DriveSubsystem;
 
 public class RobotContainer {
-  private final DualShock4Controller pilotInput = new DualShock4Controller(OIConstants.PILOT_JOYSTICK_PORT);
+  private final DualShock4Controller pilotInput = new DualShock4Controller(Constants.PILOT_JOYSTICK_PORT);
 
   private final DriveSubsystem driveSubsystem = new DriveSubsystem();
 
   private final Command manualDriveCommand = new RunCommand(
-    () -> driveSubsystem.tankDrive(pilotInput.getY(Hand.kLeft), pilotInput.getY(Hand.kRight))
+    () -> driveSubsystem.arcadeDrive(pilotInput.getY(Hand.kLeft), pilotInput.getX(Hand.kRight))
     , driveSubsystem
   );
 

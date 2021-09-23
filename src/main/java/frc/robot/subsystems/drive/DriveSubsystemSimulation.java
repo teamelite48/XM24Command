@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.simulation.EncoderSim;
 import edu.wpi.first.wpilibj.simulation.DifferentialDrivetrainSim.KitbotGearing;
 import edu.wpi.first.wpilibj.simulation.DifferentialDrivetrainSim.KitbotMotor;
 import edu.wpi.first.wpilibj.simulation.DifferentialDrivetrainSim.KitbotWheelSize;
-import frc.robot.Constants.DriveConstants;
+import frc.robot.Constants;
 
 public class DriveSubsystemSimulation {
     private final DifferentialDrivetrainSim driveTrainSim = DifferentialDrivetrainSim.createKitbotSim(
@@ -46,7 +46,7 @@ public class DriveSubsystemSimulation {
         double rightVoltageVolts = -rightSpeed.getAsDouble() * RobotController.getInputVoltage();
     
         driveTrainSim.setInputs(leftVoltageVolts, rightVoltageVolts);
-        driveTrainSim.update(DriveConstants.SIMULATION_REFRESH_RATE);
+        driveTrainSim.update(Constants.SIMULATION_REFRESH_RATE);
     
         leftEncoderSim.setDistance(driveTrainSim.getLeftPositionMeters());
         leftEncoderSim.setRate(driveTrainSim.getLeftVelocityMetersPerSecond());
