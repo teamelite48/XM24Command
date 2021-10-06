@@ -6,9 +6,11 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import frc.robot.operatorinterface.DualShock4Controller;
 import frc.robot.subsystems.Intake.IntakeSubsystem;
+import frc.robot.subsystems.arm.ArmSubsystem;
 import frc.robot.subsystems.drive.DriveSubsystem;
 
 public class RobotContainer {
@@ -16,14 +18,16 @@ public class RobotContainer {
 
   private final DriveSubsystem driveSubsystem = new DriveSubsystem();
   private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
+  private final ArmSubsystem armSubsystem = new ArmSubsystem();
 
   private final Command manualDriveCommand = new RunCommand(
     () -> driveSubsystem.arcadeDrive(pilotInput.getY(Hand.kLeft), pilotInput.getX(Hand.kRight))
     , driveSubsystem
   );
 
-  private final Command startIntakeCommand = new RunCommand(() -> intakeSubsystem.start(), intakeSubsystem);
+  private final Command startIntakeCommand = new RunCommand(() -> intakeSubsystem.start(armSubsystem.armPosition), intakeSubsystem);
   private final Command stopIntakeCommand = new RunCommand(()-> intakeSubsystem.stop(), intakeSubsystem);
+  private final Command toggleArmCommand = new InstantCommand(()-> armSubsystem.toggleArm(), armSubsystem);
 
   public RobotContainer() {
     driveSubsystem.setDefaultCommand(manualDriveCommand);
@@ -31,5 +35,8 @@ public class RobotContainer {
     pilotInput.getLeftBumper()
       .whenHeld(startIntakeCommand)
       .whenReleased(stopIntakeCommand);
+
+    pilotInput.getXButton()
+      .whenPressed(toggleArmCommand);
   }
 }

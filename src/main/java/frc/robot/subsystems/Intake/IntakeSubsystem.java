@@ -14,14 +14,16 @@ public class IntakeSubsystem extends SubsystemBase {
 
   public IntakeSubsystem() {}
 
-  @Override
-  public void periodic() {
-    // This method will be called once per scheduler run
+  public void start(String armPosition){
+    if (armPosition == "up") {
+      motor.set(0.5);
+    } 
+    else if (armPosition == "down") {
+      motor.set(-0.5);
+    }
   }
-  public void start(){
-    this.motor.set(0.5);
-  }
+
   public void stop(){
-    this.motor.set(0);
+    motor.set(0);
   }
 }
