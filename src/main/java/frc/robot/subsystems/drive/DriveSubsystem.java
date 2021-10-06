@@ -46,6 +46,7 @@ public class DriveSubsystem extends SubsystemBase {
   );
 
   public DriveSubsystem() {
+    drivetrain.setMaxOutput(0.5);
     initEncoders();
     initDashboard();
   }
@@ -56,8 +57,8 @@ public class DriveSubsystem extends SubsystemBase {
     updateRobotPositionOnField();
   }
 
-  public void arcadeDrive(double leftSpeed, double rightSpeed) {
-    drivetrain.arcadeDrive(leftSpeed, rightSpeed);
+  public void arcadeDrive(double speed, double rotation) {
+    drivetrain.arcadeDrive(speed, rotation);
   }
 
   public void simulationPeriodic() {
