@@ -45,6 +45,10 @@ public class DualShock4Controller extends GenericHID {
     return new JoystickButton(this, ButtonMap.XButton);
   }
 
+  public JoystickButton getTriangleButton() {
+    return new JoystickButton(this, ButtonMap.TriangleButton);
+  }
+
   private final class ButtonMap {
     public static final int LeftXAxis = 0;
     public static final int LeftYAxis = 1;
@@ -53,5 +57,6 @@ public class DualShock4Controller extends GenericHID {
     public static final int RightXAxis = 4;
     public static final int RightYAxis = 5;
     public static final int XButton = 2;
+    public static final int TriangleButton = 4;
   }
 }
