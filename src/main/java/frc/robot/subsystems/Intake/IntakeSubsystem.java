@@ -7,6 +7,7 @@ package frc.robot.subsystems.Intake;
 import edu.wpi.first.wpilibj.PWMSparkMax;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.subsystems.arm.ArmPosition;
 
 public class IntakeSubsystem extends SubsystemBase {
 
@@ -14,16 +15,28 @@ public class IntakeSubsystem extends SubsystemBase {
 
   public IntakeSubsystem() {}
 
-  public void start(String armPosition){
-    if (armPosition == "up") {
-      motor.set(0.5);
-    } 
-    else if (armPosition == "down") {
-      motor.set(-0.5);
+  public void start(ArmPosition armPosition){
+    switch (armPosition) {
+      case Up: {
+        outtake();
+        break;
+      }
+      case Down: {
+        intake();
+        break;
+      }
     }
   }
 
   public void stop(){
     motor.set(0);
+  }
+
+  private void intake() {
+    motor.set(0.5);
+  }
+
+  private void outtake() {
+    motor.set(-0.5);
   }
 }

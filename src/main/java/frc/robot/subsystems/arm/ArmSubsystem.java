@@ -7,17 +7,25 @@ package frc.robot.subsystems.arm;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class ArmSubsystem extends SubsystemBase {
-  
-  public String armPosition = "up";
-  
+
+  private ArmPosition armPosition = ArmPosition.Up;
+
   public ArmSubsystem() {}
-   
+
   public void toggleArm () {
-    if (armPosition == "up") {
-      armPosition = "down";
+    switch (armPosition) {
+      case Up: {
+        armPosition = ArmPosition.Down;
+        break;
+      }
+      case Down: {
+        armPosition = ArmPosition.Up;
+        break;
+      }
     }
-    else if (armPosition == "down") {
-      armPosition = "up";
-    }
+  }
+
+  public ArmPosition getArmPosition() {
+    return armPosition;
   }
 }

@@ -23,9 +23,9 @@ public class RobotContainer {
   private final Command manualDriveCommand = new RunCommand(
     () -> driveSubsystem.arcadeDrive(pilotInput.getY(Hand.kLeft), pilotInput.getX(Hand.kRight))
     , driveSubsystem
-  ); 
+  );
 
-  private final Command startIntakeCommand = new RunCommand(() -> intakeSubsystem.start(armSubsystem.armPosition), intakeSubsystem);
+  private final Command startIntakeCommand = new RunCommand(() -> intakeSubsystem.start(armSubsystem.getArmPosition()), intakeSubsystem);
   private final Command stopIntakeCommand = new RunCommand(()-> intakeSubsystem.stop(), intakeSubsystem);
   private final Command toggleArmCommand = new InstantCommand(()-> armSubsystem.toggleArm(), armSubsystem);
 
