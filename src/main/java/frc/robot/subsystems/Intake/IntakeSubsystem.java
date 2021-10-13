@@ -17,13 +17,16 @@ public class IntakeSubsystem extends SubsystemBase {
 
   public void start(ArmPosition armPosition){
     switch (armPosition) {
-      case Up: {
+      case Score: {
         outtake();
         break;
       }
-      case Down: {
+      case Floor: {
         intake();
         break;
+      }
+      default: {
+        // do nothing
       }
     }
   }

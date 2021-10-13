@@ -8,21 +8,20 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class ArmSubsystem extends SubsystemBase {
 
-  private ArmPosition armPosition = ArmPosition.Up;
+  private ArmPosition armPosition = ArmPosition.Home;
 
   public ArmSubsystem() {}
 
-  public void toggleArm () {
-    switch (armPosition) {
-      case Up: {
-        armPosition = ArmPosition.Down;
-        break;
-      }
-      case Down: {
-        armPosition = ArmPosition.Up;
-        break;
-      }
-    }
+  public void moveToHomePosition() {
+    armPosition = ArmPosition.Home;
+  }
+
+  public void moveToScorePosition() {
+    armPosition = ArmPosition.Score;
+  }
+
+  public void moveToFloorPosition() {
+    armPosition = ArmPosition.Floor;
   }
 
   public ArmPosition getArmPosition() {

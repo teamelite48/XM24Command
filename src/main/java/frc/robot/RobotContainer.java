@@ -27,7 +27,10 @@ public class RobotContainer {
 
   private final Command startIntakeCommand = new RunCommand(() -> intakeSubsystem.start(armSubsystem.getArmPosition()), intakeSubsystem);
   private final Command stopIntakeCommand = new RunCommand(()-> intakeSubsystem.stop(), intakeSubsystem);
-  private final Command toggleArmCommand = new InstantCommand(()-> armSubsystem.toggleArm(), armSubsystem);
+
+  private final Command moveArmToHomeCommand = new RunCommand(()-> armSubsystem.moveToHomePosition(), armSubsystem);
+  private final Command moveArmToScoreCommand = new RunCommand(()-> armSubsystem.moveToScorePosition(), armSubsystem);
+  private final Command moveArmToFloorCommand = new RunCommand(()-> armSubsystem.moveToFloorPosition(), armSubsystem);
 
   public RobotContainer() {
     driveSubsystem.setDefaultCommand(manualDriveCommand);
@@ -36,7 +39,13 @@ public class RobotContainer {
       .whenHeld(startIntakeCommand)
       .whenReleased(stopIntakeCommand);
 
+    pilotInput.getTriangleButton()
+      .whenPressed(moveArmToHomeCommand);
+
+    pilotInput.getCircleButton()
+      .whenPressed(moveArmToScoreCommand);
+
     pilotInput.getXButton()
-      .whenPressed(toggleArmCommand);
+      .whenPressed(moveArmToFloorCommand);
   }
 }
