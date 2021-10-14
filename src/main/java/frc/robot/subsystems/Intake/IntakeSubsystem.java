@@ -26,7 +26,8 @@ public class IntakeSubsystem extends SubsystemBase {
         break;
       }
       default: {
-        // do nothing
+        stop();
+        break;
       }
     }
   }
