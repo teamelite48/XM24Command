@@ -24,7 +24,7 @@ public class RobotContainer {
     , driveSubsystem
   );
 
-  private final Command startIntakeCommand = new RunCommand(() -> intakeSubsystem.start(armSubsystem.getArmPosition()), intakeSubsystem);
+  private final Command startIntakeCommand = new RunCommand(() -> intakeSubsystem.start(), intakeSubsystem);
   private final Command stopIntakeCommand = new RunCommand(()-> intakeSubsystem.stop(), intakeSubsystem);
 
   private final Command moveArmToHomeCommand = new RunCommand(()-> armSubsystem.moveToHomePosition(), armSubsystem);

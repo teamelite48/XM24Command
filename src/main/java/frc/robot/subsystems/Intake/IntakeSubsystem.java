@@ -7,7 +7,6 @@ package frc.robot.subsystems.Intake;
 import edu.wpi.first.wpilibj.PWMSparkMax;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-import frc.robot.subsystems.arm.ArmPosition;
 
 public class IntakeSubsystem extends SubsystemBase {
 
@@ -15,21 +14,8 @@ public class IntakeSubsystem extends SubsystemBase {
 
   public IntakeSubsystem() {}
 
-  public void start(ArmPosition armPosition){
-    switch (armPosition) {
-      case Score: {
-        outtake();
-        break;
-      }
-      case Floor: {
-        intake();
-        break;
-      }
-      default: {
-        stop();
-        break;
-      }
-    }
+  public void start(){
+    intake();
   }
 
   public void stop(){
