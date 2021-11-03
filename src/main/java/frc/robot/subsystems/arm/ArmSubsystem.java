@@ -23,15 +23,15 @@ public class ArmSubsystem extends SubsystemBase {
   public ArmSubsystem() {}
 
   public void moveToHomePosition() {
-    setArmAngle(Constants.ARM_HOME);
+    setArmAngle(Constants.ARM_HOME_DEGREES);
   }
 
   public void moveToScorePosition() {
-    setArmAngle(Constants.ARM_SCORE);
+    setArmAngle(Constants.ARM_SCORE_DEGREES);
   }
 
   public void moveToFloorPosition() {
-    setArmAngle(Constants.ARM_FLOOR);
+    setArmAngle(Constants.ARM_FLOOR_DEGRESS);
   }
 
   public double getArmAngle() {
