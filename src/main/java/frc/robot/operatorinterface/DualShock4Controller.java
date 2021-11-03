@@ -37,6 +37,10 @@ public class DualShock4Controller extends GenericHID {
     return new JoystickButton(this, ButtonMap.LeftBumper);
   }
 
+  public JoystickButton getRightBumper() {
+    return new JoystickButton(this, ButtonMap.RightBumper);
+  }
+
   public JoystickButton getLeftStick() {
     return new JoystickButton(this, ButtonMap.LeftStick);
   }
@@ -57,6 +61,7 @@ public class DualShock4Controller extends GenericHID {
     public static final int LeftXAxis = 0;
     public static final int LeftYAxis = 1;
     public static final int LeftBumper = 5;
+    public static final int RightBumper = 6;
     public static final int LeftStick = 10;
     public static final int RightXAxis = 4;
     public static final int RightYAxis = 5;

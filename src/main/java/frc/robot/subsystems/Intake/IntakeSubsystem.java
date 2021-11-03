@@ -14,19 +14,15 @@ public class IntakeSubsystem extends SubsystemBase {
 
   public IntakeSubsystem() {}
 
-  public void start(){
-    intake();
-  }
-
-  public void stop(){
+  public void stop() {
     motor.set(0);
   }
 
-  private void intake() {
+  public void intake() {
     motor.set(0.5);
   }
 
-  private void outtake() {
+  public void outtake () {
     motor.set(-0.5);
   }
 }
