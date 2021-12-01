@@ -38,5 +38,8 @@ public final class Constants {
   public static final double ARM_FLOOR_DEGRESS = 90.0;
 
    public static final double ARM_ENCODER_TICKS_PER_REV = 42.0/48.76;
-	 public static final double ARM_ENCODER_DISTANCE_PER_REV = 3.0;     
+   public static final double ARM_ENCODER_DISTANCE_PER_REV = 3.0;   
+   
+   public static final int ARM_DOWN_LIMIT_SWITCH_CHANNEL = 4;
+	 public static final int ARM_UP_LIMIT_SWITCH_CHANNEL = 5;	 	 
 }
