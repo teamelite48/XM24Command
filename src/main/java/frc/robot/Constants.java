@@ -35,7 +35,7 @@ public final class Constants {
   
   public static final double ARM_HOME_DEGREES = 0.0;	
   public static final double ARM_SCORE_DEGREES = 35.0;
-  public static final double ARM_FLOOR_DEGRESS = 90.0;
+  public static final double ARM_FLOOR_DEGREES = 90.0;
 
    public static final double ARM_ENCODER_TICKS_PER_REV = 42.0/48.76;
    public static final double ARM_ENCODER_DISTANCE_PER_REV = 3.0;   

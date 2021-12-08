@@ -19,54 +19,56 @@ public class ArmSubsystem extends SubsystemBase {
 
   private  final PIDController pid = new PIDController(Constants.ARM_KP, Constants.ARM_KI, Constants.ARM_KD);
 
-  private double armOffset = Constants.ARM_HOME_DEGREES;
+  private double armOffset = ArmPosition.Home.degrees;
 
-  private final DigitalInput upLimit = new DigitalInput(Constants.ARM_UP_LIMIT_SWITCH_CHANNEL);
-  private final DigitalInput downLimit = new DigitalInput(Constants.ARM_DOWN_LIMIT_SWITCH_CHANNEL);
+  private final DigitalInput upperLimitSwitch = new DigitalInput(Constants.ARM_UP_LIMIT_SWITCH_CHANNEL);
+  private final DigitalInput lowerLimitSwith = new DigitalInput(Constants.ARM_DOWN_LIMIT_SWITCH_CHANNEL);
 
   public ArmSubsystem() {}
 
+  public boolean isArmInClimablePosition() {
+    return isArmAtUpperLimit() || isArmAtLowerLimit();
+  }
+
   public void moveToHomePosition() {
-    setArmAngle(Constants.ARM_HOME_DEGREES);
+    moveToPosition(ArmPosition.Home);
   }
 
   public void moveToScorePosition() {
-    setArmAngle(Constants.ARM_SCORE_DEGREES);
+    moveToPosition(ArmPosition.Score);
   }
 
   public void moveToFloorPosition() {
-    setArmAngle(Constants.ARM_FLOOR_DEGRESS);
+    moveToPosition(ArmPosition.Floor);
   }
 
-  public double getArmAngle() {
-    return armOffset + ( (encoder.getPosition() / Constants.ARM_ENCODER_TICKS_PER_REV) * Constants.ARM_ENCODER_DISTANCE_PER_REV);
-  }
+  private void moveToPosition(ArmPosition desiredArmPosition) {
 
-  public void setArmAngle(double desiredAngle) {
-
-    if (isArmTryingToPassLimit(desiredAngle)) {
+    if (isArmTryingToPassLimit(desiredArmPosition)) {
       stopMotor();
       homeArmPosition();
       return;
     }
 
-    double currentAngle = getArmAngle();
-    double speed = pid.calculate(currentAngle, desiredAngle);
+    double currentDegrees = getArmPositionInDegrees();
+    double desiredDegrees = desiredArmPosition.degrees;
+
+    double speed = pid.calculate(currentDegrees, desiredDegrees);
 
     motor.set(speed);
   }
 
-  public boolean isArmHome() {
-    return isArmAtUpperLimit() || isArmAtLowerLimit();
+  private double getArmPositionInDegrees() {
+    return armOffset + ((encoder.getPosition() / Constants.ARM_ENCODER_TICKS_PER_REV) * Constants.ARM_ENCODER_DISTANCE_PER_REV);
   }
 
-  private boolean isArmTryingToPassLimit(double desiredAngle) {
-    
-    if (isArmAtUpperLimit() && desiredAngle == Constants.ARM_HOME_DEGREES) {
+  private boolean isArmTryingToPassLimit(ArmPosition desiredArmPosition) {
+
+    if (isArmAtUpperLimit() && desiredArmPosition == ArmPosition.Home) {
       return true;
     }
 
-    if (isArmAtLowerLimit() && desiredAngle == Constants.ARM_FLOOR_DEGRESS) {
+    if (isArmAtLowerLimit() && desiredArmPosition == ArmPosition.Floor) {
       return true;
     }
 
@@ -74,11 +76,11 @@ public class ArmSubsystem extends SubsystemBase {
   }
 
   private boolean isArmAtUpperLimit() {
-    return !upLimit.get();
+    return !upperLimitSwitch.get();
   }
 
   private boolean isArmAtLowerLimit() {
-    return !downLimit.get();
+    return !lowerLimitSwith.get();
   }
 
   private void stopMotor() {
@@ -93,11 +95,11 @@ public class ArmSubsystem extends SubsystemBase {
   private void updateArmOffset() {
 
     if (isArmAtUpperLimit()) {
-      armOffset = Constants.ARM_HOME_DEGREES;
+      armOffset = ArmPosition.Home.degrees;
     }
 
     else if (isArmAtLowerLimit()) {
-      armOffset = Constants.ARM_FLOOR_DEGRESS;
+      armOffset = ArmPosition.Floor.degrees;
     }
   }
 
