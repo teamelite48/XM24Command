@@ -7,6 +7,8 @@ package frc.robot;
 import edu.wpi.first.wpilibj.util.Units;
 
 public final class Constants {
+  public static final int TIMEOUT_MS = 30;
+
   public static final int MOTOR_LEFT_FRONT = 3;
   public static final int MOTOR_LEFT_REAR = 2;
   public static final int MOTOR_RIGHT_FRONT = 0;
@@ -41,5 +43,7 @@ public final class Constants {
    public static final double ARM_ENCODER_DISTANCE_PER_REV = 3.0;   
    
    public static final int ARM_DOWN_LIMIT_SWITCH_CHANNEL = 4;
-	 public static final int ARM_UP_LIMIT_SWITCH_CHANNEL = 5;	 	 
+	 public static final int ARM_UP_LIMIT_SWITCH_CHANNEL = 5; 
+
+   public static final int CLIMBER_MOTOR_DEVICE_ID = 3;
 }
