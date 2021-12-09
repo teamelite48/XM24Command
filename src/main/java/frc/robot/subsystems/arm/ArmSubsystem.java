@@ -26,23 +26,7 @@ public class ArmSubsystem extends SubsystemBase {
 
   public ArmSubsystem() {}
 
-  public boolean isArmInClimablePosition() {
-    return isArmAtUpperLimit() || isArmAtLowerLimit();
-  }
-
-  public void moveToHomePosition() {
-    moveToPosition(ArmPosition.Home);
-  }
-
-  public void moveToScorePosition() {
-    moveToPosition(ArmPosition.Score);
-  }
-
-  public void moveToFloorPosition() {
-    moveToPosition(ArmPosition.Floor);
-  }
-
-  private void moveToPosition(ArmPosition desiredArmPosition) {
+  public void moveTo(ArmPosition desiredArmPosition) {
 
     if (isArmTryingToPassLimit(desiredArmPosition)) {
       stopMotor();
@@ -56,6 +40,10 @@ public class ArmSubsystem extends SubsystemBase {
     double speed = pid.calculate(currentDegrees, desiredDegrees);
 
     motor.set(speed);
+  }
+
+  public boolean isArmInClimablePosition() {
+    return isArmAtUpperLimit() || isArmAtLowerLimit();
   }
 
   private double getArmPositionInDegrees() {

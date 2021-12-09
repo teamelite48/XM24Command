@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import frc.robot.operatorinterface.DualShock4Controller;
 import frc.robot.subsystems.Intake.IntakeSubsystem;
+import frc.robot.subsystems.arm.ArmPosition;
 import frc.robot.subsystems.arm.ArmSubsystem;
 import frc.robot.subsystems.drive.DriveSubsystem;
 
@@ -28,9 +29,9 @@ public class RobotContainer {
   private final Command outtakeCommand = new RunCommand(() -> intakeSubsystem.outtake(), intakeSubsystem);
   private final Command stopIntakeCommand = new RunCommand(() -> intakeSubsystem.stop(), intakeSubsystem);
 
-  private final Command moveArmToHomeCommand = new RunCommand(()-> armSubsystem.moveToHomePosition(), armSubsystem);
-  private final Command moveArmToScoreCommand = new RunCommand(()-> armSubsystem.moveToScorePosition(), armSubsystem);
-  private final Command moveArmToFloorCommand = new RunCommand(()-> armSubsystem.moveToFloorPosition(), armSubsystem);
+  private final Command moveArmToHomeCommand = new RunCommand(()-> armSubsystem.moveTo(ArmPosition.Home), armSubsystem);
+  private final Command moveArmToScoreCommand = new RunCommand(()-> armSubsystem.moveTo(ArmPosition.Score), armSubsystem);
+  private final Command moveArmToFloorCommand = new RunCommand(()-> armSubsystem.moveTo(ArmPosition.Floor), armSubsystem);
 
   public RobotContainer() {
     driveSubsystem.setDefaultCommand(manualDriveCommand);
